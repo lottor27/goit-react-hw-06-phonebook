@@ -1,19 +1,17 @@
 import React from 'react';
-import Head from './Title/head';
-import Section from './Title/section-title';
-import Contacts from './Contacts/contacts';
-import SearchContact from './SearchContact/SearchContact';
-import AddContactForm from './Add-contact/add-contact';
+import Contacts from './Phonebook/PhonebookForm';
+import SearchContact from './Filter/Filter';
+import AddContactForm from './addContact/addContact';
 
 export const App = () => {
   return (
     <div className="container">
-      <Head headTitle="Phonebook" />
+      
+      Phonebook<h2>Phonebook</h2>
       <AddContactForm />
-      <Section title="Contacts">
-        <SearchContact searchTitle="Find contacts by name" />
-        <Contacts />
-      </Section>
+      <h2>Contacts</h2>
+      <SearchContact searchTitle="Find contacts by name" />
+      <Contacts />
     </div>
   );
 };

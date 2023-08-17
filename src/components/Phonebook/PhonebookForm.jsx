@@ -1,75 +1,37 @@
-import { useState } from "react";
-import React from "react";
-import { nanoid } from 'nanoid'
-import css from './Phonebook.module.css'
+import SavedContact from 'components/PhonebookList/PhoneBookList';
+import { useDispatch, useSelector } from 'react-redux';
+import { deleteContact } from 'redux/reducers/contactsSlice';
+import { selectorContacts, selectorFilter } from 'redux/selectors';
 
+const Contacts = () => {
+  const contacts = useSelector(selectorContacts);
+  const filter = useSelector(selectorFilter);
+  const dispatch = useDispatch();
 
-const Form = ({addContact} ) => {
- const  nameInputId = nanoid();
- const numberInputId = nanoid();
+  const handleClick = e => {
+    if (e.target.tagName === 'BUTTON') {
+      const id = e.target.getAttribute('data-id');
+      dispatch(deleteContact(id));
+    }
+  };
 
-const [name, setName] = useState('')
-const [number, setNumber] = useState('')
+  const filteredContacts = () => {
+    if (filter !== '')
+      return contacts.filter(contact =>
+        contact.name.toLowerCase().includes(filter.toLowerCase())
+      );
+    else if (filter === '') return contacts;
+  };
 
-
-
-const handleChange =(event) =>{
-
-const {name, value} = event.currentTarget;
-if (name === 'name') setName(value);
-        if (name === 'number') setNumber(value);
-}
-
-const handleSabmit = e => {
-    e.preventDefault();
-    addContact(name, number);
-    reset()
-}
-
-
-
-const reset =()=>{
-    setName('')
-    setNumber('')
-}
-
-return(
-    <form onSubmit={handleSabmit}
-    className={css.formbox}>
-
-<label htmlFor={nameInputId}>
-Name
-<input
-className={css.inputPhone}
-onChange={handleChange}
-value={name}
-id={nameInputId}
-type="text"
-name="name"
-pattern="^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"
-title="Name may contain only letters, apostrophe, dash and spaces. For example Adrian, Jacob Mercer, Charles de Batz de Castelmore d'Artagnan"
-required
-/>
-</label>
-<label htmlFor={numberInputId}>
-Number
-<input
-className={css.inputPhone}
-value={number}
-onChange={handleChange}
-id={numberInputId}
-type="tel"
-name="number"
-pattern="\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}"
-title="Phone number must be digits and can contain spaces, dashes, parentheses and can start with +"
-required
-/>
-</label>
-<button type="submit" className={css.btnsubmit}>Add contact</button>
-
-</form>  
+  return contacts.length > 0 ? (
+    <ul onClick={handleClick}>
+      {filteredContacts().map(({ id, name, number }) => (
+        <SavedContact key={id} id={id} name={name} number={number} />
+      ))}
+    </ul>
+  ) : (
+    <p className="text-message">The contact list is empty.</p>
   );
-}
+};
 
-
-export default Form
+export default Contacts;
