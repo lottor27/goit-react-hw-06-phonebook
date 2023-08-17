@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { selectorContacts } from 'redux/selectors';
 import { addContact } from 'redux/reducers/contactsSlice';
 import { nanoid } from 'nanoid';
+import css from './addContact.module.css';
 
 const nameInputId = nanoid();
 const numerInputId = nanoid();
@@ -36,12 +37,10 @@ const AddContactForm = () => {
 
   return (
     <>
-      <form  onSubmit={onAddToContacts}>
-        <label  htmlFor={nameInputId}>
-          Name
-        </label>
+      <form onSubmit={onAddToContacts} className={css.formbox}>
+        <label htmlFor={nameInputId}>Name</label>
         <input
-          
+          className={css.inputPhone}
           type="text"
           name="name"
           pattern="^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"
@@ -50,11 +49,9 @@ const AddContactForm = () => {
           onChange={onChangeInput}
           required
         />
-        <label  htmlFor={numerInputId}>
-          Number
-        </label>
+        <label htmlFor={numerInputId}>Number</label>
         <input
-          
+          className={css.inputPhone}
           type="tel"
           name="number"
           pattern="\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}"
@@ -63,7 +60,7 @@ const AddContactForm = () => {
           onChange={onChangeInput}
           required
         />
-        <button type="submit" >
+        <button type="submit" className={css.btnsubmit}>
           Add contact
         </button>
       </form>

@@ -5,12 +5,12 @@ import AddContactForm from './addContact/addContact';
 
 export const App = () => {
   return (
-    <div className="container">
+    <div>
       
-      Phonebook<h2>Phonebook</h2>
+      <h2>Phonebook</h2>
       <AddContactForm />
       <h2>Contacts</h2>
-      <SearchContact searchTitle="Find contacts by name" />
+      <SearchContact/>
       <Contacts />
     </div>
   );
